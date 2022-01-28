@@ -1,0 +1,19 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+canvas {
+  width: 100%;
+}
+
+@font-face {
+  font-family: "Galaxian";
+  src: url("assets/fonts/galaxian.ttf");
+}
+
+.fontPreload {
+  font-family: "Galaxian";
+  position: absolute;
+  left: -100px;
+}
