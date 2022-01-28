@@ -6,7 +6,6 @@ class StartScene extends Phaser.Scene {
   create() {
     this.createBackground();
     this.createLogo();
-    this.setEvents();
   }
 
   init() {
@@ -15,11 +14,6 @@ class StartScene extends Phaser.Scene {
 
   update() {
     this.bg.tilePositionY -= 1;
-    if (this.logo.y > this.positionLogoY) {
-      this.logo.y -= 1;
-    } else {
-      this.createText();
-    }
   }
 
   createBackground() {
@@ -33,6 +27,16 @@ class StartScene extends Phaser.Scene {
       .image(config.width / 2, config.height, "logo")
       .setScale(0.2)
       .setOrigin(0.5, 0);
+
+    this.tweens.add({
+      targets: this.logo,
+      y: this.positionLogoY,
+      duration: 8000,
+      onComplete: () => {
+        this.createText();
+        this.setEvents();
+      },
+    });
   }
 
   createText() {
@@ -54,7 +58,7 @@ class StartScene extends Phaser.Scene {
 
   setEvents() {
     this.input.on("pointerdown", () => {
-      this.scene.start("Game");
+      this.scene.start("LevelStart");
     });
   }
 }
