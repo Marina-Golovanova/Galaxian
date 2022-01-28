@@ -10,6 +10,8 @@ class PreloadScene extends Phaser.Scene {
 
   preloadAssets() {
     this.load.image("logo", "assets/sprites/logo.png");
+    this.load.image("ship", "assets/sprites/ship.png");
+    this.load.image("fire", "assets/sprites/fire.png");
   }
 
   create() {

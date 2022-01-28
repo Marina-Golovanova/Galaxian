@@ -66,7 +66,7 @@ class LevelStartScene extends Phaser.Scene {
       .text(
         config.width / 2,
         config.height / 2,
-        "You need to press enter \nto destroy the death star \nyou have only 10 seconds",
+        "You need to press space \nto destroy the death star \nyou have only 10 seconds",
         {
           font: "30px Galaxian",
           fill: "#428aff",
@@ -81,7 +81,7 @@ class LevelStartScene extends Phaser.Scene {
   nextScene() {
     this.timer = this.time.addEvent({
       delay: 10000,
-      callback: () => this.scene.start("GameScene"),
+      callback: () => this.scene.start("Game"),
       callbackScope: this,
     });
   }
