@@ -11,8 +11,8 @@ class Fire extends Phaser.GameObjects.Sprite {
       scene,
       x: source.x,
       y: source.y,
-      texture: "fire",
-      velocity: 900,
+      texture: source.fireTexture,
+      velocity: source.fireVelocity,
     };
     return new Fire(data);
   }
@@ -36,7 +36,7 @@ class Fire extends Phaser.GameObjects.Sprite {
   }
 
   move() {
-    this.body.setVelocityY(-this.velocity);
+    this.body.setVelocityY(this.velocity);
   }
 
   setAlive(status) {

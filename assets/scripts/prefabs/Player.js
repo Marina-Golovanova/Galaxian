@@ -10,6 +10,8 @@ class Player extends Phaser.GameObjects.Sprite {
     this.countMaxFires = 10;
     this.countCreatedFires = 0;
     this.setOrigin(0.5, 0);
+    this.fireTexture = "fire";
+    this.fireVelocity = -900;
   }
 
   init() {
@@ -38,7 +40,15 @@ class Player extends Phaser.GameObjects.Sprite {
   }
 
   fire() {
-    this.fires.createFire(this);
-    this.countCreatedFires++;
+    if (this.active) {
+      this.fires.createFire(this);
+      this.countCreatedFires++;
+    }
+  }
+
+  setAlive(status) {
+    this.body.enable = status;
+    this.setVisible(status);
+    this.setActive(status);
   }
 }
