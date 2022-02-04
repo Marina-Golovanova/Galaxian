@@ -2,9 +2,10 @@ class Enemy extends Phaser.GameObjects.Sprite {
   constructor(data) {
     super(data.scene, data.x, data.y, data.texture, data.frame);
     this.velocity = data.velocity;
-    this.setScale(2);
+    this.scale = 2;
     this.fireTexture = "bullet";
     this.fireVelocity = 700;
+    this.scaleFires = 0.1;
     this.init(data);
   }
 

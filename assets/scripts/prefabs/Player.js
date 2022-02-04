@@ -12,6 +12,9 @@ class Player extends Phaser.GameObjects.Sprite {
     this.setOrigin(0.5, 0);
     this.fireTexture = "fire";
     this.fireVelocity = -900;
+    this.stopFire = false;
+    this.isFired = false;
+    this.scaleFires = 0.1;
   }
 
   init() {
@@ -40,9 +43,18 @@ class Player extends Phaser.GameObjects.Sprite {
   }
 
   fire() {
-    if (this.active) {
+    if (this.active && !this.stopFire) {
       this.fires.createFire(this);
       this.countCreatedFires++;
+    } else {
+      if (this.scene.cursors.space.isDown && !this.isFired) {
+        this.fires.createFire(this);
+        this.isFired = true;
+      }
+
+      if (this.scene.cursors.space.isUp) {
+        this.isFired = false;
+      }
     }
   }
 

@@ -3,7 +3,8 @@ class Fire extends Phaser.GameObjects.Sprite {
     super(data.scene, data.x, data.y, data.texture);
     this.velocity = data.velocity;
     this.init(data);
-    this.setScale(0.1);
+    this.scale = data.scaleFires;
+    this.needRandom = data.needRandom;
   }
 
   static generate(scene, source) {
@@ -13,6 +14,8 @@ class Fire extends Phaser.GameObjects.Sprite {
       y: source.y,
       texture: source.fireTexture,
       velocity: source.fireVelocity,
+      scaleFires: source.scaleFires,
+      needRandom: source.needRandom,
     };
     return new Fire(data);
   }
@@ -37,6 +40,9 @@ class Fire extends Phaser.GameObjects.Sprite {
 
   move() {
     this.body.setVelocityY(this.velocity);
+    if (this.needRandom) {
+      this.body.setVelocityX(Phaser.Math.Between(-500, 500));
+    }
   }
 
   setAlive(status) {

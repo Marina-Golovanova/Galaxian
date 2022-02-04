@@ -12,11 +12,12 @@ class GameScene extends Phaser.Scene {
     this.maxPlayerHP = 6;
     this.createHP();
     this.addOverlap();
+    this.createEvents();
   }
 
   init() {
     this.cursors = this.input.keyboard.createCursorKeys();
-    this.countMaxEnemies = 50;
+    this.countMaxEnemies = 0;
     this.countKilled = 0;
   }
 
@@ -113,10 +114,19 @@ class GameScene extends Phaser.Scene {
     }
   }
 
+  createEvents() {
+    this.events.on("enemies-end", this.createBoss, this);
+  }
+
   onComplete() {
     this.scene.start("LevelCompleted", {
       score: this.countKilled,
       completed: this.player.active,
     });
+  }
+
+  createBoss() {
+    this.player.stopFire = true;
+    this.boss = new Boss({ scene: this, texture: "star-death", velocity: 100 });
   }
 }

@@ -17,7 +17,6 @@ class Enemies extends Phaser.Physics.Arcade.Group {
 
     if (!enemy) {
       enemy = Enemy.generate(this.scene, this.fires);
-      //   enemy.on("killed", this.onEnemyKilled, this);
       this.add(enemy);
     } else {
       enemy.reset();
@@ -27,17 +26,16 @@ class Enemies extends Phaser.Physics.Arcade.Group {
     ++this.countCreated;
   }
 
-  //   onEnemyKilled() {
-  //     this.countKilled++;
-  //     if (this.countKilled === this.countMax) {
-  //       this.scene.events.emit("killed-enemies");
-  //     }
-  //   }
-
   tick() {
     if (this.countCreated < this.scene.countMaxEnemies) {
       this.createEnemy();
     } else {
+      this.scene.time.addEvent({
+        delay: 5000,
+        callback: () => this.scene.events.emit("enemies-end"),
+        callbackScope: this,
+      });
+
       this.timer.remove();
     }
   }
