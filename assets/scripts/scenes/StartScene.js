@@ -6,7 +6,6 @@ class StartScene extends Phaser.Scene {
   create() {
     this.createBackground();
     this.createLogo();
-    this.setEvents();
   }
 
   init() {
@@ -35,7 +34,7 @@ class StartScene extends Phaser.Scene {
       duration: 8000,
       onComplete: () => {
         this.createText();
-        // this.setEvents();
+        this.setEvents();
       },
     });
   }
@@ -59,8 +58,8 @@ class StartScene extends Phaser.Scene {
 
   setEvents() {
     this.input.on("pointerdown", () => {
-      //   this.scene.start("LevelStart");
-      this.scene.start("Game");
+      this.scene.start("LevelStart");
+      // this.scene.start("Game");
     });
   }
 }
