@@ -26,13 +26,13 @@ class Boss extends Phaser.GameObjects.Sprite {
       onComplete: () => {
         this.body.setVelocityX(-this.velocity);
         this.scene.events.on("update", this.move, this);
+        this.timer = this.scene.time.addEvent({
+          delay: 600,
+          callback: this.fire,
+          callbackScope: this,
+          loop: true,
+        });
       },
-    });
-    this.timer = this.scene.time.addEvent({
-      delay: 600,
-      callback: this.fire,
-      callbackScope: this,
-      loop: true,
     });
   }
 

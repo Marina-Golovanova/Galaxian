@@ -27,6 +27,15 @@ class Player extends Phaser.GameObjects.Sprite {
       callbackScope: this,
       loop: true,
     });
+    this.scene.events.on("update", this.update, this);
+  }
+
+  update() {
+    if (this.scene) {
+      if (this.scene.cursors.space.isUp) {
+        this.isFired = false;
+      }
+    }
   }
 
   move() {
@@ -50,10 +59,6 @@ class Player extends Phaser.GameObjects.Sprite {
       if (this.scene.cursors.space.isDown && !this.isFired) {
         this.fires.createFire(this);
         this.isFired = true;
-      }
-
-      if (this.scene.cursors.space.isUp) {
-        this.isFired = false;
       }
     }
   }

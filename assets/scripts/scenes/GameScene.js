@@ -13,11 +13,12 @@ class GameScene extends Phaser.Scene {
     this.createHP();
     this.addOverlap();
     this.createEvents();
+    this.bossLives = 10;
   }
 
   init() {
     this.cursors = this.input.keyboard.createCursorKeys();
-    this.countMaxEnemies = 0;
+    this.countMaxEnemies = 50;
     this.countKilled = 0;
   }
 
@@ -54,6 +55,22 @@ class GameScene extends Phaser.Scene {
       undefined,
       this
     );
+    this.physics.add.overlap(
+      this.player.fires,
+      this.boss,
+      this.onOverlap,
+      undefined,
+      this
+    );
+    if (this.boss) {
+      this.physics.add.overlap(
+        this.boss.fires,
+        this.player,
+        this.onOverlap,
+        undefined,
+        this
+      );
+    }
   }
 
   onOverlap(source, target) {
@@ -69,7 +86,8 @@ class GameScene extends Phaser.Scene {
     }
 
     if (
-      (target.texture.key === "bullet" || target.texture.key === "enemies") &&
+      (target.texture.key.startsWith("bullet") ||
+        target.texture.key === "enemies") &&
       source.texture.key === "ship"
     ) {
       this[`heart${this.maxPlayerHP - this.playerHP}`].destroy();
@@ -84,6 +102,14 @@ class GameScene extends Phaser.Scene {
           callback: this.onComplete,
           callbackScope: this,
         });
+      }
+    }
+    if (source.texture.key === "star-death") {
+      target.setAlive(false);
+      this.bossLives--;
+      this.events.emit("boss-shot");
+      if (!this.bossLives) {
+        this.events.emit("win");
       }
     }
   }
@@ -116,9 +142,11 @@ class GameScene extends Phaser.Scene {
 
   createEvents() {
     this.events.on("enemies-end", this.createBoss, this);
+    this.events.on("win", this.onComplete, this);
   }
 
   onComplete() {
+    this.events.off("enemies-end");
     this.scene.start("LevelCompleted", {
       score: this.countKilled,
       completed: this.player.active,
@@ -127,6 +155,22 @@ class GameScene extends Phaser.Scene {
 
   createBoss() {
     this.player.stopFire = true;
-    this.boss = new Boss({ scene: this, texture: "star-death", velocity: 100 });
+    this.playerHP = 6;
+    this.createHP();
+
+    this.boss = new Boss({
+      scene: this,
+      texture: "star-death",
+      velocity: 100,
+    });
+
+    this.time.addEvent({
+      delay: 3000,
+      callback: () => {
+        this.bossLivingBar = new LivingBar(this);
+        this.addOverlap();
+      },
+      callbackScope: this,
+    });
   }
 }

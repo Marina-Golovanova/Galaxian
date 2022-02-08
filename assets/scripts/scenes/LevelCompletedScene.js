@@ -19,23 +19,26 @@ class LevelCompletedScene extends Phaser.Scene {
   }
 
   createText(data) {
-    if (!data.completed) {
-      this.text = this.add
-        .text(config.width / 2, config.height / 2, "Game over!", {
+    this.text = this.add
+      .text(
+        config.width / 2,
+        config.height / 2,
+        data.completed ? "You won!" : "Game over!",
+        {
           font: "40px Galaxian",
-          fill: "#de2800",
-        })
-        .setOrigin(0.5);
-      this.text.setAlpha(0);
+          fill: data.competed ? "#428aff" : "#de2800",
+        }
+      )
+      .setOrigin(0.5);
+    this.text.setAlpha(0);
 
-      this.tweens.add({
-        targets: this.text,
-        alpha: 1,
-        ease: "Linear",
-        duration: 2000,
-        onComplete: () => this.createScore(data),
-      });
-    }
+    this.tweens.add({
+      targets: this.text,
+      alpha: 1,
+      ease: "Linear",
+      duration: 2000,
+      onComplete: () => this.createScore(data),
+    });
   }
 
   createScore(data) {
